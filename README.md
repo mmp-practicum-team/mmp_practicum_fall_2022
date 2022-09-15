@@ -34,7 +34,7 @@
 
 | Дата | Номер | Тема | Материалы | ДЗ |
 | :---: | :---: | --- | --- | --- |
-| 08 сентября | 01 | <ul><li>Введение в Python</li></ul> | [Введение в Python](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/01-intro) | Контест 1: [Введение в язык Python]() |
+| 08 сентября | 01 | <ul><li>Введение в Python</li></ul> | [Введение в Python](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/01-intro) | Контест 1: [Введение в язык Python](https://contest.yandex.ru/contest/40070/enter/) |
 | 15 сентября | 02 | <ul><li>Организация кода в Python: функции, модули, классы</li><li>Итераторы и генераторы</li></ul> | [Функции, модули, классы. Итераторы и генераторы](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/02-code-org/code-org.ipynb) | ＼(٥⁀▽⁀ )／ |
 | 22 сентября | 03 |  |  | ＼(٥⁀▽⁀ )／ |
 | 29 сентября | 04 |  |  | ＼(٥⁀▽⁀ )／ |
