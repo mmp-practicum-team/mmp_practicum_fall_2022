@@ -1,0 +1,231 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usetheme{Madrid}
+
+%Information to be included in the title page:
+\title{K-NN review}
+\author{Elistratov Semyon}
+\institute{MMF CMC MSU}
+\date{2021}
+\usepackage{lipsum}
+\setlength{\parindent}{1ex}
+\setlength{\parskip}{1em}
+
+
+
+\begin{document}
+
+	\frame{\titlepage}
+	\section{Introduction}
+		\begin{frame}
+			\frametitle{Introduction}
+			\begin{itemize}
+				 
+				\item K-NN - family of metric algorithms for various tasks.
+			
+			$(x_1, y_1) ..., (x_N, y_N)$ - training sample., \\ 
+			$(x_{N+1}, y_{N+1}) ..., (x_{N+M}, y_{N+M})$ - test sample. \\
+			$x_i \in \mathbb{R}^D$
+			
+			\item Key idea
+				\begin{itemize}
+					\item 	predict the response based on the responses of the $K$ nearest neighbors.
+				\end{itemize}
+			\item Assumption
+			\begin{itemize}
+				\item similar objects yield similar outputs
+			\end{itemize}
+			\item Hyperparameters
+			\begin{itemize}
+				\item k - number of nearest neighbors
+				\item $\rho(x, y)$ - distance function
+			\end{itemize}
+		\end{itemize}
+		\end{frame}
+	
+
+		\begin{frame}
+			\frametitle{Features}
+			Features
+			\begin{itemize}
+				\item simple to implement
+				\item interpretable
+				\item small number of hyperparameters
+				\item can work without direct vector representation of objects
+				\item memory-based, lazy learning
+				\item curse of dimensionality
+			\end{itemize}
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{Metric}
+			
+			We should determine metric function for finding nearest neighbors.
+			
+			Most popular metrics: 
+			\begin{itemize}
+				\item L2 (Euclidean): $\rho(x, y) = ||x-y||_2^2 = \sum_{i=1}^{D} (x_i - y_i)^2$
+				\item L1 (Manhattan): $\rho(x, y) = ||x-y||_1 = \sum_{i=1}^{D} |x_i - y_i|$
+				\item Cosine: $\rho(x, y) = \frac{\langle x,\; y \rangle}{||x||\:||y||}$
+				\item Chebyshev: $\rho(x, y) = ||x-y||_{\infty} = \max_i |x_i - y_i|$
+				\item Mahalanobis: $\rho(x, y) = \sqrt{(x-y)^T\Sigma^{-1}(x-y)}$
+			\end{itemize}
+		
+		Besides, it is not really required for function $\rho(x, y)$ to satisfy all algebraic metric axioms (triangle rule).
+		
+		For some cases (categorial features) more special distance functions are needed.
+			
+		\end{frame}
+	
+
+		\begin{frame}
+			\frametitle{Euclidean metric computation}
+			
+			Let $X \in \mathbb{R}^{N\times D}$, $Z \in \mathbb{R}^{M\times D}$ - train and test samples respectively.
+			
+			
+			Computation $\rho(x, y) = ||x-z||_2^2$ for each pair require \pause{$3NMD$ operations.}
+			
+			Simple trick:
+			\begin{center}
+		
+			
+			$||x-z||_2^2 = \langle x-z,\; x-z\rangle = \langle x,\; x\rangle + \langle z,\; z\rangle - 2\langle x,\; z\rangle $ 
+			\\ 
+			\end{center}
+			\begin{center}	
+			$\rho(x, y) = ||x||_2^2 + ||z||_2^2 - 2\langle x,\; z\rangle$
+			\end{center}
+			Thus, now the computation require  \pause{$2D(N+M) + 2NMD$}. Besides, last part could be effectively compute by matrix multiply (so $O(N^{2.3727})$).
+		
+		\end{frame}
+		
+		\begin{frame}
+			\frametitle{Regression}
+			
+			\begin{itemize}
+				\item Find k nearest neighbors:
+					\begin{center}
+					$\rho(z, x_1) \le \rho(z, x_2) \le ... \le \rho(z, x_k)$
+					\end{center}				
+				\item Predict:
+					\begin{itemize}
+						\item Mean: $\hat{y}(z) = \frac{1}{k}\sum_{i=1}^{k} y_i$
+						\item Median: $\hat{y}(z) = median \{y_1, ..., y_k\}$
+					\end{itemize}
+				\item Weighted algorithm:
+					\begin{center}
+					$\hat{y}(z) = \frac{\sum_{i=1}^{i=k}w(i, \rho(z, x_i))y_i}{\sum_{i=1}^{i=k}w(i, \rho(z, x_i))}$
+					\end{center}
+			\end{itemize}
+			
+		\end{frame}
+	
+		\begin{frame}
+			\frametitle{Classification}
+			
+			\begin{itemize}
+				\item Find k nearest neighbors:
+				\begin{center}
+				$\rho(z, x_1) \le \rho(z, x_2) \le ... \le \rho(z, x_k)$
+				\end{center}
+				\item Predict:
+				\begin{center}
+				$g_c(z) = \sum_{i=1}^{k} [y_i = c]$
+				\end{center}
+				\begin{center}
+				$\hat{y}(z) = \arg\! \max_c g_c(z)$
+				\end{center}
+				\item Weighted algorithm:
+				\begin{center}
+				$g_c(z) = \sum_{i=1}^{k} w(i, \rho(z, x_i))[y_i = c]$
+				\end{center}
+			\end{itemize}
+			
+		\end{frame}
+	
+		\begin{frame}
+			\frametitle{Weights}
+			
+			Distance do not influence the predict directly. 
+			
+			So we can use weighted algorithm.
+			
+			The most common used weight: 
+			\begin{itemize}
+				\item 	$w_i = \frac{1}{\rho(z, x_i) + \epsilon}, \, \epsilon > 0$
+				\item 	$w_i = \alpha^i, \, \alpha \in (0, 1)$
+			\end{itemize}
+		
+			
+		\end{frame}
+	
+	\section{Implementation features}
+	\begin{frame}
+		\frametitle{MNIST classification}
+		
+		Consider classification task on MNIST dataset. 
+		
+		Dataset contains 70k images. Each image has size $28\times 28$. Train sample: first 60k objects, test sample: 10k objects.
+		
+		Each object is image of handwritten digit from 0 to 9. Therefore, this is 10 class classification task.
+		
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Model}
+		
+		Hyperparameters of model:
+		\begin{itemize}
+			\item K
+			\item metric (only Euclidean or cosine)
+			\item weights (weighted prediction or not)
+			\item strategy ('my\_own', brute, kd-tree, and ball-tree)
+			\item test\_block\_size
+		\end{itemize}
+	
+	For such strategies as brute, kd-tree, and ball-tree we should use it sklearn implementation.
+		
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Cross-validation}
+		
+		You should realize CV algorithm by yourself.
+		
+		One of the advantages of using CV with K-NN is effective simultaneous computation for different values of K.
+		
+		So, for an array of k: $k_1 < k_2 < ... < k_n$, we compute distance matrix only once!
+		
+	\end{frame}
+
+	\begin{frame}
+		\frametitle{Augmentation}
+		
+		You should implement two strategies of augmentation.
+		
+	\begin{itemize}
+		\item Train augmentation
+		
+		\begin{itemize}
+			\item augment only train data
+			\item fit model on original and augmented training sample
+			\item implement model on test data
+		\end{itemize}
+	
+		\item Test augmentation
+		
+		\begin{itemize}
+			\item fit model on original train data
+			\item for each test object create it augmented copies
+			\item get forecast for original and augmented test objects
+			\item get the final prediction by voting
+		\end{itemize}
+	\end{itemize}
+	\end{frame}
+	
+	
+		
+\end{document}
