@@ -35,9 +35,9 @@
 | Дата | Номер | Тема | Материалы | ДЗ |
 | :---: | :---: | --- | --- | --- |
 | 08 сентября | 01 | <ul><li>Введение в Python</li></ul> | [Введение в Python](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/01-intro) | Контест 1: [Введение в язык Python](https://contest.yandex.ru/contest/40070/enter/) |
-| 15 сентября | 02 | <ul><li>Организация кода в Python: функции, модули, классы</li><li>Итераторы и генераторы</li></ul> | [Функции, модули, классы. Итераторы и генераторы](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/02-code-org/code-org.ipynb) | ＼(٥⁀▽⁀ )／ |
-| 22 сентября | 03 |  |  | ＼(٥⁀▽⁀ )／ |
-| 29 сентября | 04 |  |  | ＼(٥⁀▽⁀ )／ |
+| 15 сентября | 02 | <ul><li>Организация кода в Python: функции, модули, классы</li><li>Итераторы и генераторы</li></ul> | [Функции, модули, классы. Итераторы и генераторы](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/02-code-org/code-org.ipynb) | Контест 2: [Классы, генераторы](https://contest.yandex.ru/contest/40326/enter/) |
+| 22 сентября | 03 | <ul><li>Библиотека numpy и матрично-векторные вычисления</li></ul> | [Введение в numpy](Seminars/03-numpy/numpy.ipynb) | Контест 3: [Векторизация вычислений с помощью библиотеки Numpy](https://contest.yandex.ru/contest/40603/enter/) |
+| 29 сентября | 04 | <ul><li>Введение в обработку изображений</li><li>KNN</li></ul> | [Обработка изображений, KNN](Seminars/04-image-processing-and-KNN) | ＼(٥⁀▽⁀ )／ |
 | 06 октября | 05 |  |  | ＼(٥⁀▽⁀ )／ |
 | 13 октября | 06 |  |  | ＼(٥⁀▽⁀ )／ |
 | 20 октября | 07 |  |  | ＼(٥⁀▽⁀ )／ |
