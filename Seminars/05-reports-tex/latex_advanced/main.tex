@@ -31,9 +31,13 @@
         Hello, disjunctive normal forms!
     \end{document}
 \end{lcode}
+
+\textcolor{red}{Будет ли корректно рендериться русский текст в таком примере?}
+
 \end{frame}
 
 \begin{frame}[fragile]{Minimal example: русский язык}
+    Чтобы русский язык можно было отображать, нужно указать кодировку текстовых шрифтов для выходных символов:
 \begin{lcode}
     \documentclass{article}
 
@@ -49,8 +53,11 @@
     \begin{lcode}
     \documentclass{article}
 
+    % Кодировка выходных символов
     \usepackage[T1, T2A]{fontenc}
+    % Кодировка входного файла
     \usepackage[utf8]{inputenc}
+    % Правила переноса слов, названия секций и другая локализация
     \usepackage[english, russian]{babel}
 
     \begin{document}
@@ -135,7 +142,7 @@
     \begin{itemize}
         \item Пакет \verb|subfiles| позволяет компилировать файлы отдельно, причем все будут иметь общую преамбулу основного файла.
         \item Пакет \verb|standalone|, напротив, объединяет преамбулы.
-        \item \verb|\include{file}| позволяет использовать \verb|\includeonly{file1, file2}|
+        \item \verb|\include{file}| допускает рекурсивные подстановки и позволяет использовать \verb|\includeonly{file1, file2}|
     \end{itemize}
 \end{frame}
 
@@ -163,6 +170,9 @@
         \end{figure}
     }
 \end{lcode}
+
+\textcolor{red}{А зачем здесь используется окружение figure?}
+
 \end{frame}
 
 \begin{frame}[fragile]\frametitle{DeclareMathOperator}
@@ -188,16 +198,16 @@
 
     \begin{itemize}
         \item \verb|\\| (или \verb|\\*|)~--- то, что нужно
-        \item \verb|\newline|~---
+        \item \verb|\newline|~--- тоже, что и \verb|\\|
         \item \verb|\hfill \break|~--- заполнение строки и разрыв
-        \item \verb|\linebreak[number]|~--- приоритет
+        \item \verb|\linebreak[number]|~--- разрыв с приоритетом (от $0$ до 4)
     \end{itemize}
     \vspace{10pt}
     А также разрыва страниц:
     \begin{itemize}
         \item \verb|\newpage|~--- то, что нужно
-        \item \verb|\clearpage|~--- перед разрывом печатает
-        \item \verb|\pagebreak[number]|~--- приоритет
+        \item \verb|\clearpage|~--- перед разрывом принудительно выводит все плавающие окружения
+        \item \verb|\pagebreak[number]|~--- разрыв с приоритетом
     \end{itemize}
 \end{frame}
 
