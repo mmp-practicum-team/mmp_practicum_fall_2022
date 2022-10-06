@@ -1,0 +1,38 @@
+\DeclareOptionBeamer{compress}{\beamer@compresstrue}
+\ProcessOptionsBeamer
+
+\mode<presentation>
+
+\useoutertheme[footline=authortitle, subsection=false]{miniframes}
+\setbeamertemplate{mini frame in other section}{}
+% \useinnertheme{circles}
+\usecolortheme{whale}
+\usecolortheme{orchid}
+
+\definecolor{beamer@blendedblue}{rgb}{0.137,0.466,0.741}
+
+\setbeamersize{text margin left=7mm,text margin right=7mm} 
+
+\setbeamercolor{structure}{fg=beamer@blendedblue}
+\setbeamercolor{titlelike}{parent=structure}
+\setbeamercolor{frametitle}{fg=black}
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{item}{fg=black}
+
+
+\setbeamercolor{below lower separation line head}{bg=beamer@blendedblue}
+\addtobeamertemplate{headline}{}{%
+  \begin{beamercolorbox}[colsep=0.5pt]{below lower separation line head}
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{navigation symbols}{} % отключить навигационные значки
+\setbeamertemplate{footline}{%
+    \hspace{0.94\paperwidth}%
+    \usebeamerfont{title in head/foot}%
+    \insertframenumber\,/\,\inserttotalframenumber%
+} % переопределить нижнуюю панель, убрать всё кроме номера слайда
+
+
+\mode
+<all>

@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\usepackage{mystyle}
+
+\usepackage{geometry}
+\geometry{
+    papersize={12cm,12cm},
+    left=1cm,
+    right=1cm,
+    top=1cm,
+    bottom=1cm
+}
+\pagenumbering{gobble}
+
+\usepackage[
+    citestyle=numeric,
+    bibstyle=gost-numeric,
+    language=auto,
+    autolang=other,
+    sorting=none,
+    movenames=false,
+    maxnames=4]{biblatex}
+
+\addbibresource{papers.bib}
+
+\begin{document}
+    \tableofcontents
+    \section{Секция}
+    Цитируем \cite{pretrained_imagenet}, \cite{imagenet} и \cite{russian_paper}.
+    \printbibliography[
+        heading=bibintoc,
+        title={Список литературы и не только}
+    ]
+\end{document}

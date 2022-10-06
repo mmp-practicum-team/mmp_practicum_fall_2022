@@ -127,3 +127,21 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# LaTex temporary files
+*.aux
+*.out
+*.bbl
+*.bcf
+*.blg
+*.out
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.vrb
+*.toc
+*.synctex.gz
+**/_minted*
+*.run.xml
+*.listing

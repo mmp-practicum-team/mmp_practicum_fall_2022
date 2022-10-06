@@ -1,0 +1,334 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{mystyle}
+\usepackage{commands}
+\usepackage{custombeamer}
+
+\title[Введение в Python]{\bfseries Занятие 5.3: Некоторые детали \LaTeX}
+\author{
+    Автор презентации: Васильев Руслан Леонидович\\
+    Преподаватель: Находнов Максим Сергеевич
+}
+\subtitle{Практикум на ЭВМ, осень 2022}
+\institute[OM]{кафедра ММП, ВМК МГУ}
+\date{06 октября 2022 г.}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+    \frametitle{Содержание}
+    \tableofcontents
+\end{frame}
+
+\section{Основы}
+\begin{frame}[fragile]{Minimal example}
+\begin{lcode}
+    \documentclass{article}
+
+    \begin{document}
+        Hello, disjunctive normal forms!
+    \end{document}
+\end{lcode}
+\end{frame}
+
+\begin{frame}[fragile]{Minimal example: русский язык}
+\begin{lcode}
+    \documentclass{article}
+
+    \usepackage[T2A]{fontenc}
+
+    \begin{document}
+        Сокращенная ДНФ и способы ее построения
+    \end{document}
+\end{lcode}
+\end{frame}
+
+\begin{frame}[fragile]{Medium example}
+    \begin{lcode}
+    \documentclass{article}
+
+    \usepackage[T1, T2A]{fontenc}
+    \usepackage[utf8]{inputenc}
+    \usepackage[english, russian]{babel}
+
+    \begin{document}
+        Использование градиентного алгоритма для построения ДНФ.
+    \end{document}
+    \end{lcode}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{exampleblock}{Замечение}
+    По умолчанию \texttt{babel} и \texttt{fontenc} используют последние аргументы, предыдущие же позволяют переключаться внутри документа на другие языки/кодировки.
+    \end{exampleblock}
+    \vfill{}
+    \begin{itemize}
+        \item \verb|\fontencoding{T1} \selectfont|
+        \begin{itemize}
+            \item T2A: \quad {\fontencoding{T2A}\selectfont ?`}
+            \item T1: \quad {\fontencoding{T1}\selectfont ?`}
+        \end{itemize}
+        \item \verb|\selectlanguage{english}|
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Группы и окружения}
+\begin{lcode}
+    \begin{имя_окружения}
+        ...
+    \end{имя_окружения}
+\end{lcode}
+\begin{exampleblock}{Свойство окружений}
+    Часть файла, находящаяся внутри окружения, образует группу.
+\end{exampleblock}
+
+Примеры: \verb|{document}|, \verb|{figure}|, \verb|{tabular}|, \verb|{minted}|, \verb|{minipage}|, \verb|{equation}|, \verb|{itemize}|, \verb|{frame}|, \verb|{center}|, \verb|{theorem}|, \dots
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Группы и окружения}
+    \begin{minipage}{0.45\linewidth}
+        Сначала {переключим шрифт
+        на \itshape курсив; теперь
+        сделаем шрифт еще и
+        {\bfseries полужирным;}
+        посмотрите, как восстановится}
+        шрифт после кон{ца г}руппы.
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\linewidth}
+\begin{lcode}
+Сначала {переключим шрифт
+на \itshape курсив; теперь
+сделаем шрифт еще и
+{\bfseries полужирным;}
+посмотрите, как восстановится}
+шрифт после кон{ца г}руппы.
+\end{lcode}
+    \end{minipage}
+\end{frame}
+
+
+\section{Разбиение проекта}
+\begin{frame}[fragile]
+    \begin{exampleblock}{Основная команда}
+        \verb|\input{имя_файла}|
+    \end{exampleblock}
+\begin{lcode}
+    \documentclass[12pt]{report}
+
+    \usepackage{mystyle}
+    \usepackage{commands}
+
+    \begin{document}
+        \input{titlepage}
+        \input{intro}
+        \input{theory}
+        \input{experiments}
+        \input{conclusion}
+    \end{document}
+\end{lcode}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Другие варианты}
+    \begin{itemize}
+        \item Пакет \verb|subfiles| позволяет компилировать файлы отдельно, причем все будут иметь общую преамбулу основного файла.
+        \item Пакет \verb|standalone|, напротив, объединяет преамбулы.
+        \item \verb|\include{file}| позволяет использовать \verb|\includeonly{file1, file2}|
+    \end{itemize}
+\end{frame}
+
+\section{Команды}
+
+\begin{frame}[fragile]\frametitle{newcommand}
+\begin{lcode}
+    \newcommand{cmd}{def}
+    \newcommand{cmd}[args]{def}
+    \newcommand{cmd}[args][default]{def}
+\end{lcode}
+\medskip
+Переопределение существующей команды делается аналогично с помощью \verb|\renwecommand|.
+\end{frame}
+
+
+\begin{frame}[fragile]\frametitle{newcommand}
+\begin{lcode}
+    \newcommand{\mpl}[2]{
+        \begin{figure}[!h]
+            \includegraphics[width=\textwidth]{#1}
+            \centering
+            \caption{#2}
+            \label{fig:#1}
+        \end{figure}
+    }
+\end{lcode}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{DeclareMathOperator}
+    \begin{alertblock}{Что бы мы делали без \texttt{amsmath}}
+        \centering
+        \verb|\newcommand{\softmax}{\mathop{\mathrm{softmax}}\nolimits}|
+    \end{alertblock}
+    \bigskip
+    \begin{exampleblock}{Жизнь удалась}
+        \centering
+        \verb|\DeclareMathOperator{\softmax}{Softmax}|
+    \end{exampleblock}
+    \begin{equation*}
+        \softmax(\vec{s})=\left(\frac{e^{s_1}}{\sum_{t=1}^{m}e^{s_t}},\dots,\frac{e^{s_m}}{\sum_{t=1}^{m}e^{s_t}}\right)
+    \end{equation*}
+\end{frame}
+
+
+\section{Пустое пространство}
+
+\begin{frame}[fragile]\frametitle{Разрывы}
+    Существует множество команд для разрыва строк:
+
+    \begin{itemize}
+        \item \verb|\\| (или \verb|\\*|)~--- то, что нужно
+        \item \verb|\newline|~---
+        \item \verb|\hfill \break|~--- заполнение строки и разрыв
+        \item \verb|\linebreak[number]|~--- приоритет
+    \end{itemize}
+    \vspace{10pt}
+    А также разрыва страниц:
+    \begin{itemize}
+        \item \verb|\newpage|~--- то, что нужно
+        \item \verb|\clearpage|~--- перед разрывом печатает
+        \item \verb|\pagebreak[number]|~--- приоритет
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+    \begin{minipage}{0.45\linewidth}
+Эта строка\\ была разорвана.
+Справа осталось пустое
+место, но зато строка
+не разреженная.
+
+\vspace{15pt}
+
+Эта строка была \linebreak разорвана. Она выровнена по
+правому краю, но для этого ее
+пришлось безбожно растянуть.
+\end{minipage}\hfill
+\begin{minipage}{0.45\linewidth}
+\begin{lcode}
+Эта строка\\ была разорвана.
+Справа осталось пустое
+место, но зато строка
+не разреженная.
+\end{lcode}
+
+\vspace{5pt}
+
+\begin{lcode}
+Эта строка была\linebreak
+разорвана. Она выровнена по
+правому краю, но для этого ее
+пришлось безбожно растянуть.
+\end{lcode}
+\end{minipage}
+\end{frame}
+
+\begin{frame}[fragile]\frametitle{Дополнительные пробелы}
+    Горизонтальные:
+    \begin{itemize}
+        \item \verb|\hspace{1cm}|~--- фиксированная длина
+        \item \verb|\hfill|~--- до конца
+    \end{itemize}
+    \medskip
+    Вертикальные:
+    \begin{itemize}
+        \item \verb|\vspace{10pt}|~--- фиксированная длина
+        \item \verb|\vfill|~--- до конца
+        \item \verb|\smallskip|, \verb|\medskip|, \verb|\bigskip|
+    \end{itemize}
+    \begin{block}{Математические}
+    Горизонтальные:
+    \verb|\! \, \: \; \ \quad \qquad|. \\
+    Вертикальные удобнее всего задавать с помощью \verb|\\[10pt]|.
+    \end{block}
+\end{frame}
+
+
+\section{Таблицы}
+\begin{frame}
+    \input{table.tex}
+\end{frame}
+
+\section{Презентации}
+\begin{frame}\frametitle{beamer}
+    \begin{itemize}
+        \item Наиболее мощный пакет для создания презентаций;
+        \item Верстка почти не отличается от обычного \TeX'а;
+        \item Основное окружение~--- \texttt{frame} (слайд ли?) \pause;
+        \item Огромное число предустановленных тем;
+        \item Готовые шаблоны и блоки (например, block, examples, alert).
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}
+    \begin{block}{Блок, соответствующий теме}
+    Информация!
+    \end{block}
+    \vfill
+    \begin{alertblock}{Важное замечание}
+    На что-то стоит обратить внимание.
+    \end{alertblock}
+    \vfill
+    \begin{exampleblock}{Блок с примерами}
+    Раз, два, три.
+    \end{exampleblock}
+\end{frame}
+
+\section{Подсветка кода}
+\begin{frame}[fragile]\frametitle{Основные пакеты}
+    \begin{itemize}
+        \item \verb|verbatim|~--- запрещает обрабатывать вставленный текст;
+        \item \verb|lstlisting|~--- подсветка, сложная настройка;
+        \item \verb|minted|~--- подсветка, простая настройка, сложная установка.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]
+\begin{lcode}
+    \mint{html}|<h2>Текст для <b>онлайн-разметки</b>.</h2>|
+\end{lcode}
+
+\mint{html}|<h2>Текст для <b>онлайн-разметки</b>.</h2>|
+\medskip
+\begin{lcode}
+\begin{minted}{python}
+import numpy as np
+
+def mytranspose(matrix):
+    return np.swapaxes(matrix, 0, 1)
+\end{minted}
+\end{lcode}
+
+\begin{minted}{python}
+import numpy as np
+
+def mytranspose(matrix):
+    return np.swapaxes(matrix, 0, 1)
+\end{minted}
+
+\end{frame}
+
+\section{Список литературы}
+\begin{frame}[fragile]
+    \begin{enumerate}
+        \item Подключаем \verb|\usepackage[bibstyle=gost-numeric]{biblatex}|
+        \item Создаем \verb|papers.bib|
+        \item Указываем путь \verb|\addbibresource{papers.bib}|
+        \item Цитируем \verb|\cite{paper}|
+        \item Выводим \verb|\printbibliography|
+    \end{enumerate}
+
+\end{frame}
+
+\end{document}

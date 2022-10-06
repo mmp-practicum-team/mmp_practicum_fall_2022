@@ -1,0 +1,21 @@
+\newcommand{\xxx}{
+    \begin{tabular}{l}
+        $X_1=10$ \\
+        $X_2=20$ \\
+        $X_3=30$
+    \end{tabular}
+}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular*}{0.5\textwidth}{@{\extracolsep{\fill} }lcccc}
+        \toprule 
+         & \multicolumn{2}{c}{$X_1=100$} & \multicolumn{2}{c}{\xxx} \\ \cmidrule(lr){2-3} \cmidrule(lr){4-5}
+         & $a=0.5$ & $a=1$  & $a=0.5$ & $a=1$ \\ \midrule
+        \textbf{A} & 1 & 2 & 3& 4 \\ 
+        \textbf{B} & 5 & 6 & 7 & 8  \\  
+        \textbf{C} & 9 & 10 & 11 & 12 \\ \bottomrule
+    \end{tabular*}%}
+    \caption{Подпись к таблице}
+    \label{tab:vals}
+\end{table}

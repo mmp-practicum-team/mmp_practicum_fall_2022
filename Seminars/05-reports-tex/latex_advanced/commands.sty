@@ -1,0 +1,16 @@
+\newtcblisting{lcode}{
+    listing engine=minted,
+    colback=graybg,
+    colframe=black!50,
+    listing only,
+    minted style=colorful,
+    minted language=latex,
+    minted options={linenos=false,texcl=true},
+    left=1mm,
+}
+
+\newcommand{\minl}[1]{\mintinline{latex}{#1}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+\DeclareMathOperator{\softmax}{Softmax}
