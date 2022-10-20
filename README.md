@@ -40,7 +40,7 @@
 | 29 сентября | 04 | <ul><li>Введение в обработку изображений</li><li>KNN</li></ul> | [Обработка изображений, KNN](Seminars/04-image-processing-and-KNN) | Задание 1: [Метрические алгоритмы классификации](Tasks/Task1/task1.pdf) |
 | 06 октября | 05 | <ul><li>Подготовка отчётов</li><li>Система TeX</li></ul> | <ul><li>[Введение в `matplotlib`](Seminars/05-reports-tex/matplotlib_intro/matplotlib_examples.ipynb)</li><li>[Подготовка отчётов](Seminars/05-reports-tex/report_style/main.pdf)</li><li>[Введение в $\LaTeX$](Seminars/05-reports-tex/latex_intro/main.pdf)</li><li>[Детали $\LaTeX$](Seminars/05-reports-tex/latex_advanced/main.pdf)</li></ul> | ＼(٥⁀▽⁀ )／ |
 | 13 октября | 06 | <ul><li>Основы ООП</li></ul>  | [Основы ООП](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/06-classes)  | ＼(٥⁀▽⁀ )／ |
-| 20 октября | 07 |  |  | ＼(٥⁀▽⁀ )／ |
+| 20 октября | 07 | <ul><li>Основы ООП</li></ul>  | [Проектирование кода](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/07-oop)  |  | ＼(٥⁀▽⁀ )／ |
 | 27 октября | 08 |  |  | ＼(٥⁀▽⁀ )／ |
 | 03 ноября | 09 |  |  | ＼(٥⁀▽⁀ )／ |
 | 10 ноября | 10 |  |  | ＼(٥⁀▽⁀ )／ |
