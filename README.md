@@ -44,7 +44,7 @@
 | 27 октября | 08 | <ul><li>Введение в обработку текстов</li></ul> | <ul><li>[Конспект по логистической регрессии](Seminars/08-text-processing-and-logreg/linear_classifier.ipynb)</li><li>[Обработка текстов](Seminars/08-text-processing-and-logreg/text_processing.ipynb)</li></ul>  | ＼(٥⁀▽⁀ )／ |
 | 03 ноября | 09 |  |  | ＼(٥⁀▽⁀ )／ |
 | 10 ноября | 10 | <ul><li>Виртуальные окружения и контейнеры</li></ul> | [Виртуальные окружения и контейнеры](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/10-environments) | ＼(٥⁀▽⁀ )／ |
-| 17 ноября | 11 |  |  | ＼(٥⁀▽⁀ )／ |
+| 17 ноября | 11 | <ul><li>Основы веб-разработки (введение)</li></ul> | [Введение в основы веб-разработки](https://github.com/mmp-practicum-team/mmp_practicum_fall_2022/blob/main/Seminars/11-webdev-intro) | ＼(٥⁀▽⁀ )／ |
 | 24 ноября | 12 |  |  | ＼(٥⁀▽⁀ )／ |
 | 01 декабря | 13 |  |  | ＼(٥⁀▽⁀ )／ |
 | 08 декабря | 14 |  |  | ＼(٥⁀▽⁀ )／ |
