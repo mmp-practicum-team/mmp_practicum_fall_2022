@@ -1,0 +1,220 @@
+
+\documentclass[10pt,fleqn]{article}
+
+\usepackage[russian]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphics}
+\usepackage{epsfig}
+\usepackage{bm}
+\usepackage[colorlinks,urlcolor=blue]{hyperref}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usepackage{mdframed}
+\usepackage{dirtree}
+\usepackage{indentfirst}
+\usepackage{url}
+
+\definecolor{codegray}{gray}{0.9}
+\newcommand{\code}[1]{%
+  \begingroup\setlength{\fboxsep}{1pt}%
+  \colorbox{codegray}{\texttt{\hspace*{2pt}\vphantom{Ay}#1\hspace*{2pt}}}%
+  \endgroup
+}
+
+% mdinlinecode command for including code snippets inline
+% (fake verbatim, so all special character should be escaped,
+% or textmode equivalents of special characters should be used)
+\definecolor{mdinlinecodeboxframecolor}{HTML}{DDDDDD}
+\definecolor{mdinlinecodeboxbackgroundcolor}{HTML}{F8F8F8}
+\newcommand{\mdinlinecode}[1]{%
+    \begin{tikzpicture}[baseline=0ex]%
+        \node[anchor=base,%
+            text height=0.9em,%
+            text depth=0.9ex,%
+            inner ysep=0pt,%
+            draw=mdinlinecodeboxframecolor,%
+            fill=mdinlinecodeboxbackgroundcolor,%
+            rounded corners=1.5pt] at (0,0) {\small\texttt{#1}};%
+    \end{tikzpicture}%
+}
+
+\newmdenv[font=\footnotesize,%
+linewidth=0.4pt,%
+roundcorner=2pt,%
+linecolor=mdinlinecodeboxframecolor,%
+backgroundcolor=mdinlinecodeboxbackgroundcolor,%
+settings={\setlength{\parindent}{0pt}}]{mdcdblk}
+\newenvironment{mdcodeblock}{\endgraf\verbatim}{\endverbatim}
+\BeforeBeginEnvironment{mdcodeblock}{\begin{mdcdblk}}
+\AfterEndEnvironment{mdcodeblock}{\end{mdcdblk}}
+
+\textheight=26cm % высота текста
+\textwidth=18cm % ширина текста
+\oddsidemargin=-1cm % отступ от левого края
+\topmargin=-3cm % отступ от верхнего края
+\sloppy
+
+\newcounter{example}
+
+%-- Обозначение вектора жирным символом
+\def\vec#1{\mathchoice{\mbox{\boldmath$\displaystyle#1$}}
+{\mbox{\boldmath$\textstyle#1$}} {\mbox{\boldmath$\scriptstyle#1$}} {\mbox{\boldmath$\scriptscriptstyle#1$}}}
+
+\DeclareMathOperator{\B}{Bin}
+\DeclareMathOperator{\Ps}{Poiss}
+\DeclareMathOperator{\R}{Unif}
+\DeclareMathOperator{\sign}{\mathrm{sign}}
+\DeclareMathOperator{\softmax}{\mathrm{softmax}}
+\DeclareMathOperator{\loss}{\mathcal{L}}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+    \begin{tabular}{|p{17.5cm}|}
+        \hline
+        \textbf{ВМК}\\
+        \begin{center} \Large Задание 3. Ансамбли алгоритмов. Веб-сервер. \\ Композиции алгоритмов для решения задачи регрессии. \end{center}\\
+        \textbf{Практикум 317 группы, 2022}\\
+        \hline
+    \end{tabular}
+\end{center}
+
+\
+
+\begin{tabbing}
+    Начало выполнения задания: 22 ноября 2022 года, 22:00.\\
+    Мягкий Дедлайн: \textcolor{blue}{\bf 16 декабря 2022 года, 08:00.} \\
+    Жёсткий Дедлайн: \textcolor{red}{\bf 23 декабря 2022 года, 08:00.}
+\end{tabbing}
+
+\section*{Формулировка задания}
+Данное задание направлено на ознакомление с алгоритмами композиций.
+
+В задании необходимо:
+\begin{enumerate}
+ \item Написать на языке \mdinlinecode{Python} собственную реализацию методов \textbf{случайный лес} и \textbf{градиентный бустинг}. Прототипы функций должны строго соответствовать прототипам, описанным в спецификации. При написании необходимо пользоваться стандартными средствами языка \mdinlinecode{Python}, библиотеками \mdinlinecode{numpy}, \mdinlinecode{scipy} и \mdinlinecode{matplotlib}. Библиотекой \mdinlinecode{scikit-learn} пользоваться запрещается, если это не обговорено отдельно в пункте задания.
+ \item Провести \hyperref[sec:exps]{описанные ниже эксперименты} с выданными данными. Написать отчёт о проделанной работе (формат PDF). Отчёт должен быть подготовлен в системе \LaTeX.
+ \item Написать реализацию веб-сервера с \hyperref[subsec:webreq]{требуемой функциональностью}. Обернуть своё решение в docker контейнер.
+ \item Весь код, написанный во время выполнения задания, должен быть размещён в приватном репозитории. Требования к ведению репозитория также \hyperref[subsec:projcond]{описаны ниже}.
+\end{enumerate}
+
+\section*{Экспериментальная часть}
+Эксперименты для этого задания необходимо проводить на датасете данных о продажах недвижимости \textbf{House Sales in King County, USA}. Данные можно скачать по \href{https://www.kaggle.com/harlfoxem/housesalesprediction}{ссылке}.
+
+\subsection*{Реализация алгоритмов (10 баллов)}
+Прототипы всех необходимых функций описаны в файлах, прилагающихся к заданию. Среди предоставленных файлов должны быть следующие модули и функции в них:
+
+\begin{enumerate}
+    \item Модуль \mdinlinecode{ensembles.py} с реализациями случайного леса и градиентного бустинга. Алгоритмы должны соответствовать классическим реализациям, разобранным на лекциях ММРО \cite{VoronLinearEns}, \cite{VoronAdvanceEns}.
+\end{enumerate}
+
+\textbf{Замечание:} Для одномерной оптимизации используйте функцию \mdinlinecode{minimize\_scalar}. Разрешается использовать класс \mdinlinecode{DecisionTreeRegressor} из библиотеки \mdinlinecode{scikit-learn}.
+
+\subsection*{Эксперименты (15 баллов)\label{sec:exps}}
+
+\begin{enumerate}
+    \item Проведите предобработку имеющихся данных. Разделите данные на обучение и контроль, переведите данные в \mdinlinecode{numpy.ndarray}. Опишите выполненную предобработку данных в отчёте.
+    \item Исследуйте поведение алгоритма \textbf{случайный лес}. Изучите зависимость \textbf{RMSE} на отложенной выборке и \textbf{время работы алгоритма} в зависимости от следующих факторов:
+    \begin{itemize}
+        \item количество деревьев в ансамбле
+        \item размерность подвыборки признаков для одного дерева
+        \item максимальная глубина дерева (дополнительно разберите случай, когда глубина неограничена)
+    \end{itemize}
+    \item Исследуйте поведение алгоритма \textbf{градиентный бустинг}. Изучите зависимость \textbf{RMSE} на отложенной выборке и \textbf{время работы алгоритма} в зависимости от следующих факторов:
+    \begin{itemize}
+        \item количество деревьев в ансамбле
+        \item размерность подвыборки признаков для одного дерева
+        \item максимальная глубина дерева (дополнительно разберите случай, когда глубина неограничена)
+        \item выбранный \mdinlinecode{learning\_rate} (каждый новый алгоритм добавляется в композицию с коэффициентом $\alpha \cdot \mdinlinecode{learning\_rate}$)
+    \end{itemize}
+\end{enumerate}
+
+\textbf{Замечание:} Для исследования зависимости от количества деревьев не обязательно с нуля переобучать модель.
+
+
+\section*{Инфраструктурная часть}
+\subsection*{Реализация веб-сервера (15 баллов)\label{subsec:webreq}}
+В этой части задании вам предлагается спроектировать веб-интерфейс для взаимодействия с вашей моделью. Считайте, что назначение вашего интерфейса --- обучение моделей человеком, который не знает языка \mdinlinecode{Python}. Это творческое задание, вы можете использовать при реализации всё, что считаете нужным.
+
+В интерфейсе обязательно должна быть возможность выполнять следующие действия:
+\begin{enumerate}
+    \item (7 баллов) Создание новой модели. Необходимо предусмотреть возможность указывать тип (случайный лес или градиентный бустинг) и гиперпараметры модели. В интерфейсе должна быть возможность обучения модели на произвольном датасете, совпадающем по формату с датасетом из условия (то есть \mdinlinecode{.csv} файл в котором один из столбцов задаёт целевую переменную, а подмножество остальных столбцов задает признаки объектов выборки). Также, реализуйте возможность передавать данные для валидации.
+    \item (4 балла) Просмотр информации о модели. Пользователь должен иметь возможность получать информацию о гиперпараметрах модели, датасете, на котором она обучалась, а также о значении функции потерь на обучающей и валидационной (при наличии) выборках после каждой итерации.
+    \item (4 балла) Выполнение предсказаний с использованием ранее обученной модели. Считайте, что данные для предсказания представлены в том же формате, что и данные для обучения модели (за исключением отсутствия столбца с целевой переменной).
+\end{enumerate}
+
+\textbf{Замечание:} При реализации интерфейса необходимо предусмотреть все возможные проверки на входные данные и действия пользователя. Например, сайт не должен падать при передаче невалидного файла с обучающими данными.
+
+\subsection*{Ведение проекта (10 баллов)\label{subsec:projcond}}
+Весь код вашего решения должен быть выложен в приватный \mdinlinecode{github} репозиторий. Ваш проект должен быть организован в соответствии с \hyperref[fig:dirs]{Рисунком \ref{fig:dirs}}. По необходимости вы можете создавать другие дополнительные файлы и директории. Полный балл за данный пункт может быть выставлен только при условии качественного ведения репозитория. Качественное ведение включает в себя следующие требования:
+\begin{enumerate}
+    \item Основная разработка ведётся не в \mdinlinecode{master}, а в отдельных ветках. Ветка соответствует решению одной глобальной задачи.
+    \item Одно важное изменение в коде --- один коммит в системе.
+    \item Обновление \mdinlinecode{master} ветки происходит посредством \mdinlinecode{pull request} и \mdinlinecode{merge}.
+    \item Сообщения коммитов и описание \mdinlinecode{pull request} написаны понятно и содержательно.
+\end{enumerate}
+
+Решение должен быть обёрнуто в docker контейнер. В репозитории должен содержаться \mdinlinecode{Dockerfile}, а также инструкция по его сборке. Образ вашего контейнера должен быть загружен на \mdinlinecode{dockerhub.com}.
+
+Качество кода влияет на итоговую оценку, код должен быть структурированным и понятным. Ваш код должен удовлетворять кодстайлу. В частности, проходить проверку линтерами:
+
+\begin{mdcodeblock}
+    # Linter for Dockerfile
+    cat Dockerfile | docker run --rm -i hadolint/hadolint
+    # Linter for shell scripts
+    docker run --rm -v "/path/to/script/folder:/mnt" koalaman/shellcheck:stable script.sh
+    # Linter for Python scripts
+    flake8 script.py --max-line-length=120 ; pylint script.py --max-line-length=120 --disable="C0103,C0114,C0115"
+\end{mdcodeblock}
+
+В репозитории должен быть указан \mdinlinecode{README.md} файл, объясняющий как необходимо пользоваться вашей системой. Подробнее про Markdown разметку можно прочитать в \href{https://www.markdownguide.org/basic-syntax}{документации}. В \mdinlinecode{README.md} необходимо подробно описать не только процесс сборки и запуска контейнера, но и инструкцию по использованию всех реализованных функций в приложении. Использование иллюстраций и скриншотов в инструкции крайне желательно.
+
+\begin{figure}[h!]
+    \begin{center}
+        \begin{minipage}[b]{0.8\textwidth}
+            \renewcommand*\DTstylecomment{\color{blue}}
+            \renewcommand*\DTstyle{\ttfamily\textcolor{red}}
+            \dirtree{%
+            .1 github.com/<YourNickname>/<RepoName>.
+            .2 src\DTcomment{Исходники веб-приложения и реализация алгоритмов}.
+            .3 ensembles.py.
+            .3 ....
+            .2 scripts\DTcomment{Скрипты для сборки и запуска docker контейнера}.
+            .3 build.sh.
+            .3 run.sh.
+            .3 ....
+            .2 Dockerfile\DTcomment{Описание контейнера с веб-приложением}.
+            .2 report.pdf\DTcomment{Отчёт по заданию}.
+            .2 ....
+            .2 README.md\DTcomment{Описание проекта. Документация}.
+            }
+        \end{minipage}
+    \end{center}
+    \caption{\label{fig:dirs}Требуемая структура github репозитория}
+\end{figure}
+
+\subsection*{Бонусная часть (до 10 баллов)}
+В этом задании нет чётких условий для бонусной части. Дополнительные баллы могут быть поставлены за любой хорошо реализованный дополнительный функционал, неописанный в задании. Не забудьте в отчёте и в посылке в anytask написать, что за дополнительный функционал вы реализовали.
+
+Несколько идей для получения дополнительных баллов:
+\begin{enumerate}
+    \item (до 4 баллов) Использование интерактивных графиков, например, с помощью библиотеки \mdinlinecode{plotly}.
+    \item (до 4 баллов) Реализация веб-интерфейса без перезагрузки страниц, например, с помощью \mdinlinecode{AJAX}.
+\end{enumerate}
+
+
+\addcontentsline{toc}{section}{\bibname}
+
+\nocite{VoronLinearEns, VoronAdvanceEns}
+
+\def\BibUrl#1.{}\def\BibAnnote#1.{}
+\bibliographystyle{gost71s}
+\bibliography{bibliography}
+
+\end{document}
