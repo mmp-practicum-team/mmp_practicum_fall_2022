@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container">
+    <h1 id="header">{{ image_path }}</h1>
+
+    <img src="{{ image_src }}" alt="User Image" height="600" id="image">
+
+    {{ wtf.quick_form(form) }}
+</div>
+
+{% endblock %}

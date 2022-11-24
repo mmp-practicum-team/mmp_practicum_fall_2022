@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+
+<div class="container">
+    <h1 id="header">{{ image_path }}</h1>
+
+    <img src="{{ image_src }}" alt="User Image" height="600" id="image">
+
+    {{ wtf.quick_form(form) }}
+</div>
+
+<script>
+    const form = document.getElementsByClassName("form")[0]
+
+    const image = document.getElementById('image')
+    const header = document.getElementById('header')
+    const load_image_url = {{ url_for('load_image')|tojson }}
+
+    form.onsubmit = async(event) => {
+        event.preventDefault()
+
+        formData = new FormData(event.target)
+        formData.append(event.submitter.id, event.submitter.defaultValue);
+
+        console.log('onsubmit')
+        let response = await fetch(load_image_url, {
+            method: 'POST',
+            body: formData
+        });
+        let data = await response.json();
+
+        image.src = data['src']
+        header.innerHTML = data['path']
+    }
+
+</script>
+
+{% endblock %}

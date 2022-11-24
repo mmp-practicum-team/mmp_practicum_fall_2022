@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <style id="plotly.js-style-global"></style>
+    <style id="plotly.js-style-modebar-9f5d50"></style>
+</head>
+<body class="vsc-initialized">
+
+<div align="center">
+<form action=/dashboard>
+<div>
+<div>
+  <input id="datetime_start" type="datetime-local" name="start_time" value="{{ default_start_time }}">
+  <label for="datetime_start">Начало интервала событий</label>
+  <input id="datetime_end" type="datetime-local" name="end_time" value="{{ default_end_time }}">
+  <label for="datetime_end">Конец интервала событий</label>
+</div>
+<div>
+  <input type="radio" id="oxygen" name="parameter" value="oxygen">
+  <label for="oxygen">Кислород</label>
+  <input type="radio" id="humidity" name="parameter" value="humidity">
+  <label for="humidity">Влажность</label>
+  <input type="radio" id="methane" name="parameter" value="methane">
+  <label for="methane">Метан</label>
+</div>
+<p></p>
+</div>
+<button type="submit">Показать dashboard</button>
+</form>
+</div>
+
+{{ dashboard_div|safe }}
+
+<svg id="js-plotly-tester" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="position: absolute; left: -10000px; top: -10000px; width: 9000px; height: 9000px; z-index: 1;"><path class="js-reference-point" d="M0,0H1V1H0Z" style="stroke-width: 0; fill: black;"></path></svg>
+<div at-magnifier-wrapper=""><div class="at-theme-light"><div class="at-base notranslate" translate="no"><div class="Z1-AJ" style="top: 0px; left: 0px;"></div></div></div></div>
+
+</body>
+</html>

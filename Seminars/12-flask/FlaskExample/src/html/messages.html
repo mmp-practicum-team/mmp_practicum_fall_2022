@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main page</title>
+</head>
+
+<form method="post" action="{{ url_for('prepare_message') }}">
+    <input type="text" name="header">
+    <input type="text" name="text">
+    <input type="text" name="text_2">
+    <button type="submit">Отправить сообщение</button>
+</form>
+
+<form method="post" action="{{ url_for('clear_messages') }}">
+    <button type="submit">Отчистить сообщение</button>
+</form>
+
+<h3>Список сообщений</h3>
+{% for message in messages %}
+    <div>{{ message.header }}&nbsp;&nbsp;&nbsp;<b>{{ message.text }}</b></div>
+{% endfor %}
+
+</body>
+</html>

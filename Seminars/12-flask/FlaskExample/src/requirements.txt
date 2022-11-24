@@ -1,0 +1,9 @@
+numpy
+scipy
+scikit-learn
+plotly
+shapely
+
+wtforms
+flask_wtf
+flask_bootstrap
