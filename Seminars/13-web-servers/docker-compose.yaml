@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  backend_test:
+    build:
+      context: .
+    image: backend:latest
+    volumes:
+      - .:/app
+    ports:
+      - 5000:5000
+    command: pipenv run python -u server.py
+    restart: always
+    container_name: backend_test
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "3"
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
