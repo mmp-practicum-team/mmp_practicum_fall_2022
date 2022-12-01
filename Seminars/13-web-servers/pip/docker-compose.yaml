@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  backend_test2:
+    build:
+      context: .
+    image: backend:latest
+    volumes:
+      - .:/app
+    ports:
+      - 4000:5000
+    command: python -u server.py
+    restart: always
+    container_name: backend_test2
