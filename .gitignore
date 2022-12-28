@@ -145,3 +145,4 @@ dmypy.json
 **/_minted*
 *.run.xml
 *.listing
+.DS_Store
